@@ -7,17 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-library(shinydashboard)
-library(shinycssloaders)
-library(rhandsontable)
-library(tidyverse)
-library(plotly)
-library(collapsibleTree)
-library(webshot)
-library(future)
-
-
 webshot::install_phantomjs(force=TRUE)
 
 shinyUI(
