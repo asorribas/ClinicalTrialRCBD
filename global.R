@@ -1,15 +1,13 @@
 library(shiny)
 library(shinydashboard)
 library(shinycssloaders)
+
 library(rhandsontable)
 library(tidyverse)
 library(plotly)
 library(collapsibleTree)
 
 library(future)
-
-
-
 library(daewr)
 library(emmeans)
 
@@ -21,9 +19,8 @@ library(pwr)
 
 library(webshot)
 webshot::install_phantomjs(force=TRUE)
-library(future)
+
 library(parallelly)
 library(promises)
-
 
 source("Utils.R")
