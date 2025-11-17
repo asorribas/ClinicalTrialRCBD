@@ -1,0 +1,33 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Why It Is Important to Set Up a Scenario in an RCBD
+
+When designing a **Randomized Complete Block Design (RCBD)**, simply knowing that blocks reduce variability is not enough.  
+To understand how and why blocking improves your study, it is essential to define a **realistic scenario**—one that reflects the actual sources of variability in your experiment.
+
+### Core Assumptions in an RCBD
+
+- **Treatment Effects:** Treatments may differ in their mean effects (the effect you want to detect).
+- **Block Effects:** Blocks differ systematically due to some external factor (e.g., patients, days, batches, field locations).
+
+By clearly defining these two sources of variation, the design becomes **meaningful and interpretable**.
+
+### Practical Checklist (use before data collection)
+
+- Identify the **blocking factor** that most strongly drives background variability.
+- Justify why experimental units within each block are **internally homogeneous**.
+- Ensure each treatment appears **once per block** (complete blocks).
+- Plan **randomization within blocks** to avoid allocation bias.
+- Anticipate the **ANOVA model** (treatment and block effects) you will fit.

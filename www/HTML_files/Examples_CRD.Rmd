@@ -1,0 +1,99 @@
+---
+title: "Examples of CRD"
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning=FALSE,
+  message=FALSE
+)
+                      
+```
+
+### 🌱 Example 1. Agricultural Experiment — Effect of Growth Regulators on *In Vitro* Plantlets
+
+Researchers aim to assess how different plant growth regulators (PGRs) influence 
+the elongation of tomato plantlets grown *in vitro*.
+
+- **Experimental units:** 45 tomato plantlets cultured in identical sterile glass tubes 
+  with the same growth medium and light conditions.  
+- **Treatments (Factor):** 3 PGR formulations:  
+  a. Auxin-dominant (IAA-based)  
+  b. Cytokinin-dominant (BAP-based)  
+  c. Balanced auxin–cytokinin mixture  
+- **Design:** Each plantlet is randomly assigned to one of the three treatments (15 per group).  
+- **Response variable:** Mean shoot length (cm) after 4 weeks.
+
+<p style="text-align:center;"><em>Because all tubes are identical and conditions uniform, randomization alone ensures unbiased comparison — a classic Completely Randomized Design.</em></p>
+
+#### Example treatment allocation table
+
+<div style="text-align:center;">
+<table border="1" cellpadding="5" cellspacing="0" style="margin:auto; border-collapse:collapse; text-align:center;">
+  <thead>
+    <tr><th>Plantlet ID</th><th>Treatment</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>P1</td><td>Auxin-dominant</td></tr>
+    <tr><td>P2</td><td>Cytokinin-dominant</td></tr>
+    <tr><td>P3</td><td>Balanced mixture</td></tr>
+    <tr><td>P4</td><td>Auxin-dominant</td></tr>
+    <tr><td>P5</td><td>Balanced mixture</td></tr>
+    <tr><td>P6</td><td>Cytokinin-dominant</td></tr>
+  </tbody>
+</table>
+</div>
+
+---
+
+### 🐁 Example 2. Biomedical Experiment — Analgesic Doses in Genetically Identical Mice
+
+A pharmacology lab evaluates the effect of different doses of a new analgesic on the pain threshold of laboratory mice.
+
+- **Experimental units:** 40 male mice of the same inbred strain, all 10 weeks old, maintained under identical housing, feeding, and lighting conditions.  
+- **Treatments (Factor):** 4 doses of the analgesic:  
+  a. 0 mg/kg (control)  
+  b. 2 mg/kg  
+  c. 5 mg/kg  
+  d. 10 mg/kg  
+- **Design:** Each mouse is randomly assigned to one of the four doses (10 per treatment).  
+- **Response variable:** Pain response latency (seconds) measured in a hot-plate test after drug administration.
+
+<p style="text-align:center;"><em>Since the mice are genetically and environmentally homogeneous, no blocking is required — randomization alone provides a valid CRD structure.</em></p>
+
+#### Example treatment allocation table
+
+<div style="text-align:center;">
+<table border="1" cellpadding="5" cellspacing="0" style="margin:auto; border-collapse:collapse; text-align:center;">
+  <thead>
+    <tr><th>Mouse ID</th><th>Analgesic Dose (mg/kg)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>M1</td><td>0 (control)</td></tr>
+    <tr><td>M2</td><td>2</td></tr>
+    <tr><td>M3</td><td>5</td></tr>
+    <tr><td>M4</td><td>10</td></tr>
+    <tr><td>M5</td><td>5</td></tr>
+    <tr><td>M6</td><td>2</td></tr>
+  </tbody>
+</table>
+</div>
+
+---
+
+### ✅ Summary
+
+| Example | Field | Experimental Unit | Treatments | Response Variable |
+|:--------|:------|:-----------------|:------------|:------------------|
+| 1 | Agriculture | Tomato plantlets | 3 PGR formulations | Shoot length (cm) |
+| 2 | Biomedicine | Mice (inbred strain) | 4 analgesic doses | Pain latency (s) |
+
+<p style='text-align:center;'><em>Both studies use homogeneous experimental units and random assignment of treatments — 
+the defining features of a Completely Randomized Design.</em></p>

@@ -1,0 +1,40 @@
+---
+title: ''
+output: html_document
+  html_fragment:
+    self_contained: false   # no incrusta CSS/JS en base64
+    toc: false
+    df_print: default
+    # evita temas y resaltado que añaden CSS/JS extra
+    theme: null
+    highlight: null
+    # evita cargar MathJax
+    mathjax: null
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Why Simulating an Scenario Helps
+
+Simulation allows us to **see the benefit of blocking** in an RCBD.  
+In particular, it lets us compare two situations:
+
+1. **Analyzing the data using an RCBD** (blocking properly)  
+2. **Ignoring blocks** and treating the experiment as a **Completely Randomized Design (CRD)**
+
+### 🔍 What We Observe in Simulations
+
+When we simulate data with substantial block-to-block variability, we typically find:
+
+- **RCBD maintains good power** to detect treatment differences, because the block variability is separated out and does not inflate the residual noise.  
+- **CRD loses power**, because block differences get absorbed into the residual error, making treatments look more similar than they actually are.
+
+### 📊 Conclusion
+
+> **Blocking reduces unexplained variability.**  
+> If blocks are ignored, the experiment becomes noisier, making true differences harder to detect.
+
+Simulating both designs side by side provides valuable intuition for students and researchers, showing how **proper blocking improves precision and statistical power**.

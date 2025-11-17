@@ -1,0 +1,44 @@
+---
+title: ""
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Example of a CRD experimental plan
+
+Consider a study designed to evaluate the effect of three types of fertilizers on the growth of a particular crop species grown under controlled greenhouse conditions. The goal is to determine whether the fertilizers produce different mean plant heights after a fixed growth period.
+
+In this example, the fertilizer type is the treatment factor, with three levels (Fertilizer A, B, and C). The experimental units are potted plants of the same species, age, and initial size, all grown under identical environmental conditions (light, temperature, and watering). Because the plants are highly homogeneous, a Completely Randomized Design (CRD) is appropriate.
+
+Each plant is randomly assigned to one of the three fertilizer treatments. This ensures that every plant has an equal chance of receiving any fertilizer, eliminating bias and making the comparison among fertilizers fair.
+
+The objective of the study is to determine whether the mean plant height differs significantly among fertilizers. If significant differences are found, researchers can identify which fertilizer leads to optimal growth.
+
+<table border="1" cellpadding="5" cellspacing="0" style="margin: auto; border-collapse: collapse; text-align: center;">
+  <thead>
+    <tr>
+      <th>Pot ID</th>
+      <th>Fertilizer Treatment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Pot 1</td><td>Fertilizer A</td></tr>
+    <tr><td>Pot 2</td><td>Fertilizer C</td></tr>
+    <tr><td>Pot 3</td><td>Fertilizer B</td></tr>
+    <tr><td>Pot 4</td><td>Fertilizer B</td></tr>
+    <tr><td>Pot 5</td><td>Fertilizer A</td></tr>
+    <tr><td>Pot 6</td><td>Fertilizer C</td></tr>
+    <tr><td>Pot 7</td><td>Fertilizer A</td></tr>
+    <tr><td>Pot 8</td><td>Fertilizer C</td></tr>
+    <tr><td>Pot 9</td><td>Fertilizer B</td></tr>
+    <tr><td>Pot 10</td><td>Fertilizer A</td></tr>
+  </tbody>
+</table>

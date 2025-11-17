@@ -1,0 +1,38 @@
+---
+title: ""
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+ 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Completely Randomized Design (CRD)
+
+A **Completely Randomized Design (CRD)** is the simplest type of experimental design.  
+In a CRD, all experimental units are assigned to treatments completely at random, so every unit has an equal chance of receiving any treatment.
+
+---
+
+### When to Use a CRD
+
+- It’s used when experimental units are **homogeneous** (similar in all relevant aspects).  
+- The model assumes that observed differences between treatment means are due to **treatment effects and random error**.  
+- Analysis is typically done using a **one-way ANOVA**, where total variability is partitioned into *between treatments* and *within treatments (error)*.
+
+---
+
+### 🔑 Key Features of a Completely Randomized Design (CRD)
+
+- **Random Assignment** – Experimental units are assigned to treatments entirely at random, ensuring unbiased treatment comparisons.  
+- **Homogeneous Units** – Assumes all experimental units are similar, so differences in responses are mainly due to treatments.  
+- **Flexible Number of Replicates** – Treatments can have equal or unequal numbers of replicates.  
+- **Single Source of Variation** – Only one factor (the treatment) is studied; all other variation is treated as random error.  
+- **Simple Analysis** – Data are analyzed using a one-way ANOVA, comparing treatment means.  
+- **Ease of Implementation** – It’s the easiest design to set up and interpret when conditions are uniform.

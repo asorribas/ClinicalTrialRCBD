@@ -1,0 +1,82 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Examples of Randomized Complete Block Design (RCBD)
+
+Randomized Complete Block Designs (RCBDs) are widely used in both agricultural and biomedical research to **control for known sources of variability**.  
+By dividing experimental units into blocks that are internally homogeneous, researchers can isolate the effects of treatments more accurately.
+
+---
+
+## 🌾 Agriculture Example: Fertilizer Testing Across Different Soil Types
+
+**Objective:**  
+To evaluate the effectiveness of different types of fertilizers on crop yield.
+
+---
+
+### Experimental Design
+
+| Design Element | Description |
+|:----------------|:-------------|
+| **Blocks** | Fields are divided into blocks based on **soil type** (e.g., sandy, clay, and loamy soils), since soil type can influence nutrient absorption and crop growth. |
+| **Treatments** | Different fertilizers are tested (e.g., **Organic**, **Nitrogen-rich**, **Phosphorus-rich**). |
+| **Process** | Within each block (soil type), each fertilizer type is **randomly applied** to plots. This controls for soil variability across plots. |
+| **Outcome** | Randomizing treatments within soil type blocks allows researchers to determine which fertilizer performs best across soils while accounting for soil composition variability. |
+
+---
+
+### Example Layout
+
+| Soil Type (Block) | Plot 1 | Plot 2 | Plot 3 |
+|:------------------:|:-------:|:-------:|:-------:|
+| **Sandy** | Fertilizer A | Fertilizer B | Fertilizer C |
+| **Clay** | Fertilizer B | Fertilizer C | Fertilizer A |
+| **Loamy** | Fertilizer C | Fertilizer A | Fertilizer B |
+
+---
+
+## 🧬 Biomedical Example: Drug Efficacy Trial Across Age Groups
+
+**Objective:**  
+To compare the efficacy of multiple drugs for managing blood pressure across different age groups.
+
+---
+
+### Experimental Design
+
+| Design Element | Description |
+|:----------------|:-------------|
+| **Blocks** | Patients are grouped into **age-based blocks** (e.g., 20–40, 40–60, and 60+), as age affects drug metabolism and response. |
+| **Treatments** | Different blood pressure medications are tested (e.g., **Drug A**, **Drug B**, **Drug C**). |
+| **Process** | Within each age group, each medication is **randomly assigned** to patients, controlling for age-related variability. |
+| **Outcome** | Researchers can identify which drug is most effective for controlling blood pressure while accounting for the influence of age. |
+
+---
+
+### Example Layout
+
+| Age Group (Block) | Patient 1 | Patient 2 | Patient 3 |
+|:------------------:|:-----------:|:-----------:|:-----------:|
+| **20–40 years** | Drug A | Drug B | Drug C |
+| **40–60 years** | Drug B | Drug C | Drug A |
+| **60+ years** | Drug C | Drug A | Drug B |
+
+---
+
+### 🧩 Summary
+
+In both examples, **blocking by an influential factor**  
+— soil type in agriculture and age group in biomedicine —  
+helps control for variability, ensuring **more reliable and interpretable conclusions** about treatment effects.

@@ -1,0 +1,74 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<style>
+h5 {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+h2 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+h3 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+p {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+</style>
+
+This plot shows how statistical power increases as the number of replicates grows
+when using a number of blocks (slider) in a randomized complete block design. The curve rises quickly at first
+and then begins to level off, meaning that each additional replicate contributes less and
+less improvement in power. In other words, there are diminishing returns once power is already high.
+
+## Dependence on blocks:</b>
+  
+Including blocks removes variation due to known sources of heterogeneity (e.g., location, time, batches).
+When block effects are strong, this reduction in unexplained variability can <b>substantially increase power</b>
+without increasing the number of treatment replicates. However, adding more blocks also increases total
+experimental effort, so the number of blocks should reflect meaningful sources of variation rather than
+being increased arbitrarily.
+
+## Dependence on replicates:
+  
+Increasing the number of replicates per treatment improves the accuracy of treatment mean estimates
+and therefore increases power. But, as shown here, the gain in power is most noticeable when going from
+very few replicates to a moderate number; after that, the curve flattens and additional replicates yield
+only small improvements.
+
+## How to choose a good combination:
+  
+Identify important blocking variables first. Use blocks to capture variation you can predict or measure
+(e.g., field rows, days, animal batches). Aim for a number of blocks that meaningfully reduces variability,
+but avoid unnecessary blocking if no strong block differences exist. Once blocks are set, adjust the number
+of replicates to achieve the desired power (commonly 0.80 or higher).
+Look for the point where the power curve starts to flatten—this indicates an efficient number
+of replicates (good power for a reasonable sample size).
+Consider practical constraints such as cost, time, and availability of experimental units.
+
+### In short:
+
+Use blocks to reduce noise, improving power without needing as many replicates.
+Increase replicates until reaching the desired power, but recognize that beyond a certain point
+the improvement becomes minimal.
+
+ 

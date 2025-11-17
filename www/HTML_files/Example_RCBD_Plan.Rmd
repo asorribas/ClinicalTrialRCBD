@@ -1,0 +1,49 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Example of a Randomized Complete Block Design (RCBD)
+
+Consider a study conducted to evaluate the **consistency and accuracy of blood analysis results** for a specific metabolite measured by three different laboratories.  
+The goal is to standardize procedures and ensure that the results are comparable across laboratories.
+
+---
+
+In this example, the **laboratories** act as a **fixed factor** (analogous to treatments), while the **blood samples from each patient** serve as **blocks**.  
+Because each patient may have unique biological characteristics that influence metabolite levels, **blocking by patient** accounts for this inherent subject-to-subject variability.
+
+---
+
+Each blood sample is divided into **three equal aliquots**, and each aliquot is randomly assigned to one of the three laboratories for analysis.  
+This ensures that every laboratory measures the same set of samples, allowing for a fair comparison.
+
+---
+
+### 🎯 Objective of the Study
+
+The objective of the study is to determine whether the measurements differ significantly among the three laboratories.  
+If statistically significant differences are detected, this would suggest that **laboratory procedures are not yet fully standardized** and require further improvement.
+
+### 🧪 Experimental Layout
+
+| Patient (Block) | Sample 1 | Sample 2 | Sample 3 |
+|:----------------:|:---------:|:---------:|:---------:|
+| **Patient 1** | Lab A | Lab B | Lab C |
+| **Patient 2** | Lab C | Lab A | Lab B |
+| **Patient 3** | Lab B | Lab C | Lab A |
+| **Patient 4** | Lab A | Lab C | Lab B |
+| **Patient 5** | Lab B | Lab A | Lab C |
+
+Each **row** represents a patient (block), and each **column** represents the random assignment of the three laboratories (treatments) to that patient’s aliquots.  
+Every laboratory analyzes one aliquot per patient, ensuring a balanced design with one observation per treatment-block combination.
+

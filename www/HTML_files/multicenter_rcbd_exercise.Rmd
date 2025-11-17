@@ -1,0 +1,235 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<style>
+h5 {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+h2 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+h3 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+p {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+</style>
+
+## 🧠 Introduction and Motivation
+
+Imagine a multicentric clinical trial designed to evaluate **three treatment strategies (A, B, and C)** for improving patient recovery scores.
+Each participating **hospital (center)** treats patients with all three therapies.  
+
+At first glance, it might seem that randomizing all patients across treatments—without considering centers—should suffice (a *Completely Randomized Design*, CRD).However, hospitals differ in many ways:  
+
+- patient populations,  
+- staff experience,  
+- equipment,  
+- and even environmental or procedural factors.  
+
+These differences introduce **systematic variability** between centers that can **mask true treatment effects** if ignored.  
+Treatments might appear less effective or more variable simply because centers differ — not because the therapies themselves do.
+
+To handle this, we can treat **centers as blocks** and analyze the data using a **Randomized Complete Block Design (RCBD)**.  
+In RCBD, each center applies all treatments, allowing us to separate:
+
+- the variation **due to centers** from  
+- the variation **due to treatments**,  
+
+thereby improving the **precision** and **power** of statistical conclusions.
+
+In this exercise, you will use the **RCBD simulation Shiny app** to explore how experimental design choices (such as block effect, within-center variability, number of centers, and replicates) influence the conclusions drawn from RCBD and CRD analyses.
+
+> **Key questions to explore**
+
+> 1. How does accounting for center effects improve inference in multicentric studies?  
+> 2. Under what conditions does blocking yield substantial gains in precision or power?  
+> 3. When might RCBD and CRD lead to similar results?
+
+---
+
+## 🧩 Learning Objectives
+
+By completing this exercise, you should be able to:
+
+- Understand the conceptual role of **blocking** in multicenter studies.  
+- Evaluate how **design parameters** (variability, number of blocks, replicates, and effect size) affect statistical **power** and **precision**.  
+- Compare **ANOVA outputs** for RCBD vs CRD and interpret the implications.  
+- Identify efficient experimental setups that balance power and resource use.
+
+---
+
+## Part 1 — Baseline Scenario
+
+**Set:**
+
+- Baseline = **100**
+- `sigma_within` = **5**
+- Cohen's *f* = **0.25** (medium)
+- Centers (blocks) = **6**
+- Replicates per treatment per center = **5**
+- Block effect = **Medium**
+
+### 1.1 Record results
+
+```{r, echo=FALSE}
+baseline_tbl <- data.frame(
+  Model = c("RCBD", "CRD"),
+  F_treatment = "",
+  p_treatment = "",
+  F_block = c("", ""),
+  p_block = c("", ""),
+  MSE = "",
+  Power = "",
+  Avg_CI_Width_for_Pairwise_Diffs = ""
+)
+knitr::kable(baseline_tbl, caption = "Baseline results (to be filled in).")
+```
+
+### 1.2 Interpretation
+
+- Does including centers as blocks reduce residual variance (MSE)?
+- How does it affect treatment significance and **power**?
+- Why could CRD be misleading in a multicentric setting?
+
+---
+
+## Part 2 — Effect of Between-Center Heterogeneity (Block Effect)
+
+Keep parameters as in Part 1, **vary only the Block effect**: *None*, *Low*, *Medium*, *High*.
+
+```{r, echo=FALSE}
+block_levels <- c("None","Low","Medium","High")
+results_blocks <- data.frame(
+  Block_Effect = rep(block_levels, each = 2),
+  Model = rep(c("RCBD","CRD"), times = length(block_levels)),
+  F_treatment = "",
+  p_treatment = "",
+  MSE = "",
+  Power = "",
+  Avg_CI_Width_for_Pairwise_Diffs = ""
+)
+knitr::kable(results_blocks, caption = "Results across block-effect levels (fill in from app).")
+```
+
+### Interpretation
+
+- When block effects are absent, does blocking help or hurt power? Why?
+- When block effects are strong, how do **MSE**, **power**, and **treatment p-values** compare between RCBD and CRD?
+
+---
+
+## Part 3 — Effect of Within-Center Variability (sigma_within)
+
+Fix parameters as in Part 1, set **Block effect = Medium**. Vary `sigma_within`:
+**2, 5, 10, 20**.
+
+```{r, echo=FALSE}
+sigma_levels <- c(2,5,10,20)
+results_sigma <- data.frame(
+  sigma_within = rep(sigma_levels, each = 2),
+  Model = rep(c("RCBD","CRD"), times = length(sigma_levels)),
+  F_treatment = "",
+  p_treatment = "",
+  MSE = "",
+  Power = "",
+  Avg_CI_Width_for_Pairwise_Diffs = ""
+)
+knitr::kable(results_sigma, caption = "Effect of within-center variability (fill in).")
+```
+
+### Interpretation
+- How do **power** and **CI widths** change as `sigma_within` increases?
+- Can blocking compensate when residual noise is very large? Explain.
+
+---
+
+## Part 4 — Number of Centers and Replicates
+
+Fix: Baseline = 100, `sigma_within` = 5, Cohen's *f* = 0.25, Block effect = *Medium*.
+Explore combinations:
+
+- Centers = **3, 6, 9**
+- Replicates = **2, 4, 6**
+
+```{r, echo=FALSE}
+grid <- expand.grid(
+  Centers = c(3,6,9),
+  Replicates = c(2,4,6),
+  Model = c("RCBD","CRD"),
+  KEEP.OUT.ATTRS = FALSE,
+  stringsAsFactors = FALSE
+)
+grid$Power <- ""
+grid$Avg_CI_Width_for_Pairwise_Diffs <- ""
+knitr::kable(grid, caption = "Power & precision over centers × replicates (fill in).")
+```
+
+### Interpretation
+- Identify **diminishing returns** when increasing replicates or centers.
+- Propose an **efficient** design achieving **power ≥ 0.80** with minimal sample size.
+
+---
+
+## Part 5 — Precision of Treatment Differences
+
+Choose two contrasting scenarios (e.g., *Low* vs *High* block effect). For **RCBD**:
+- Report the **pairwise estimates (A–B, A–C, B–C)** and **95% CIs**.
+- Summarize how blocking impacts **CI width**.
+
+```{r, echo=FALSE}
+pairs_tbl <- data.frame(
+  Contrast = c("A - B","A - C","B - C"),
+  Estimate = "",
+  CI_lower = "",
+  CI_upper = "",
+  Scenario = ""
+)
+knitr::kable(pairs_tbl, caption = "Pairwise treatment differences (RCBD).")
+```
+
+### Short discussion
+- Under which conditions do CIs shrink the most with RCBD?
+- Are there situations where CRD and RCBD yield similar precision? Why?
+
+---
+
+## Part 6 — Reflection (Short Answers)
+
+1. When do **centers as blocks** provide the largest advantage?  
+2. How do `sigma_within`, number of centers, and replicates jointly determine **power**?  
+3. What’s a **practical combination** of centers × replicates to achieve power ≥ 0.80 in this context?  
+4. If the block effect were negligible, what would be the consequence of using RCBD instead of CRD?  
+5. How would you check the key assumption that **treatment effects are consistent across centers** (i.e., no treatment×center interaction)?
+
+---
+
+## Optional: Notes for Instructors (remove before submission)
+
+- Expected trends:  
+  - **Higher block effect** → RCBD gains over CRD in power and MSE.  
+  - **Higher sigma_within** → lower precision and power for both; RCBD helps mainly when block variance is non-negligible.  
+  - **More centers** controls systematic heterogeneity; **more replicates** reduces within-center error.  
+  - **Diminishing returns** after moderate replication.
+
+- Suggested grading criteria: completeness of tables; correctness of interpretations; ability to justify an efficient design.

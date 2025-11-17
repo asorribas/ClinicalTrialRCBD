@@ -1,0 +1,659 @@
+
+
+
+<style>
+h5 {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+h2 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+h3 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+p {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+</style>
+<div id="introduction-and-motivation" class="section level2">
+<h2>🧠 Introduction and Motivation</h2>
+<p>Imagine a multicentric clinical trial designed to evaluate
+<strong>three treatment strategies (A, B, and C)</strong> for improving
+patient recovery scores. Each participating <strong>hospital
+(center)</strong> treats patients with all three therapies.</p>
+<p>At first glance, it might seem that randomizing all patients across
+treatments—without considering centers—should suffice (a <em>Completely
+Randomized Design</em>, CRD).However, hospitals differ in many ways:</p>
+<ul>
+<li>patient populations,<br />
+</li>
+<li>staff experience,<br />
+</li>
+<li>equipment,<br />
+</li>
+<li>and even environmental or procedural factors.</li>
+</ul>
+<p>These differences introduce <strong>systematic variability</strong>
+between centers that can <strong>mask true treatment effects</strong> if
+ignored.<br />
+Treatments might appear less effective or more variable simply because
+centers differ — not because the therapies themselves do.</p>
+<p>To handle this, we can treat <strong>centers as blocks</strong> and
+analyze the data using a <strong>Randomized Complete Block Design
+(RCBD)</strong>.<br />
+In RCBD, each center applies all treatments, allowing us to
+separate:</p>
+<ul>
+<li>the variation <strong>due to centers</strong> from<br />
+</li>
+<li>the variation <strong>due to treatments</strong>,</li>
+</ul>
+<p>thereby improving the <strong>precision</strong> and
+<strong>power</strong> of statistical conclusions.</p>
+<p>In this exercise, you will use the <strong>RCBD simulation Shiny
+app</strong> to explore how experimental design choices (such as block
+effect, within-center variability, number of centers, and replicates)
+influence the conclusions drawn from RCBD and CRD analyses.</p>
+<blockquote>
+<p><strong>Key questions to explore</strong></p>
+</blockquote>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>How does accounting for center effects improve inference in
+multicentric studies?<br />
+</li>
+<li>Under what conditions does blocking yield substantial gains in
+precision or power?<br />
+</li>
+<li>When might RCBD and CRD lead to similar results?</li>
+</ol>
+</blockquote>
+<hr />
+</div>
+<div id="learning-objectives" class="section level2">
+<h2>🧩 Learning Objectives</h2>
+<p>By completing this exercise, you should be able to:</p>
+<ul>
+<li>Understand the conceptual role of <strong>blocking</strong> in
+multicenter studies.<br />
+</li>
+<li>Evaluate how <strong>design parameters</strong> (variability, number
+of blocks, replicates, and effect size) affect statistical
+<strong>power</strong> and <strong>precision</strong>.<br />
+</li>
+<li>Compare <strong>ANOVA outputs</strong> for RCBD vs CRD and interpret
+the implications.<br />
+</li>
+<li>Identify efficient experimental setups that balance power and
+resource use.</li>
+</ul>
+<hr />
+</div>
+<div id="part-1-baseline-scenario" class="section level2">
+<h2>Part 1 — Baseline Scenario</h2>
+<p><strong>Set:</strong></p>
+<ul>
+<li>Baseline = <strong>100</strong></li>
+<li><code>sigma_within</code> = <strong>5</strong></li>
+<li>Cohen’s <em>f</em> = <strong>0.25</strong> (medium)</li>
+<li>Centers (blocks) = <strong>6</strong></li>
+<li>Replicates per treatment per center = <strong>5</strong></li>
+<li>Block effect = <strong>Medium</strong></li>
+</ul>
+<div id="record-results" class="section level3">
+<h3>1.1 Record results</h3>
+<table style="width:100%;">
+<caption>Baseline results (to be filled in).</caption>
+<colgroup>
+<col width="6%" />
+<col width="13%" />
+<col width="13%" />
+<col width="9%" />
+<col width="9%" />
+<col width="4%" />
+<col width="6%" />
+<col width="36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="left">F_treatment</th>
+<th align="left">p_treatment</th>
+<th align="left">F_block</th>
+<th align="left">p_block</th>
+<th align="left">MSE</th>
+<th align="left">Power</th>
+<th align="left">Avg_CI_Width_for_Pairwise_Diffs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="interpretation" class="section level3">
+<h3>1.2 Interpretation</h3>
+<ul>
+<li>Does including centers as blocks reduce residual variance
+(MSE)?</li>
+<li>How does it affect treatment significance and
+<strong>power</strong>?</li>
+<li>Why could CRD be misleading in a multicentric setting?</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="part-2-effect-of-between-center-heterogeneity-block-effect"
+class="section level2">
+<h2>Part 2 — Effect of Between-Center Heterogeneity (Block Effect)</h2>
+<p>Keep parameters as in Part 1, <strong>vary only the Block
+effect</strong>: <em>None</em>, <em>Low</em>, <em>Medium</em>,
+<em>High</em>.</p>
+<table>
+<caption>Results across block-effect levels (fill in from
+app).</caption>
+<colgroup>
+<col width="15%" />
+<col width="7%" />
+<col width="14%" />
+<col width="14%" />
+<col width="4%" />
+<col width="7%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Block_Effect</th>
+<th align="left">Model</th>
+<th align="left">F_treatment</th>
+<th align="left">p_treatment</th>
+<th align="left">MSE</th>
+<th align="left">Power</th>
+<th align="left">Avg_CI_Width_for_Pairwise_Diffs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">None</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">None</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Low</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Low</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Medium</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Medium</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">High</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">High</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<div id="interpretation-1" class="section level3">
+<h3>Interpretation</h3>
+<ul>
+<li>When block effects are absent, does blocking help or hurt power?
+Why?</li>
+<li>When block effects are strong, how do <strong>MSE</strong>,
+<strong>power</strong>, and <strong>treatment p-values</strong> compare
+between RCBD and CRD?</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="part-3-effect-of-within-center-variability-sigma_within"
+class="section level2">
+<h2>Part 3 — Effect of Within-Center Variability (sigma_within)</h2>
+<p>Fix parameters as in Part 1, set <strong>Block effect =
+Medium</strong>. Vary <code>sigma_within</code>: <strong>2, 5, 10,
+20</strong>.</p>
+<table>
+<caption>Effect of within-center variability (fill in).</caption>
+<colgroup>
+<col width="15%" />
+<col width="7%" />
+<col width="14%" />
+<col width="14%" />
+<col width="4%" />
+<col width="7%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">sigma_within</th>
+<th align="left">Model</th>
+<th align="left">F_treatment</th>
+<th align="left">p_treatment</th>
+<th align="left">MSE</th>
+<th align="left">Power</th>
+<th align="left">Avg_CI_Width_for_Pairwise_Diffs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">20</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<div id="interpretation-2" class="section level3">
+<h3>Interpretation</h3>
+<ul>
+<li>How do <strong>power</strong> and <strong>CI widths</strong> change
+as <code>sigma_within</code> increases?</li>
+<li>Can blocking compensate when residual noise is very large?
+Explain.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="part-4-number-of-centers-and-replicates"
+class="section level2">
+<h2>Part 4 — Number of Centers and Replicates</h2>
+<p>Fix: Baseline = 100, <code>sigma_within</code> = 5, Cohen’s
+<em>f</em> = 0.25, Block effect = <em>Medium</em>. Explore
+combinations:</p>
+<ul>
+<li>Centers = <strong>3, 6, 9</strong></li>
+<li>Replicates = <strong>2, 4, 6</strong></li>
+</ul>
+<table>
+<caption>Power &amp; precision over centers × replicates (fill
+in).</caption>
+<thead>
+<tr class="header">
+<th align="right">Centers</th>
+<th align="right">Replicates</th>
+<th align="left">Model</th>
+<th align="left">Power</th>
+<th align="left">Avg_CI_Width_for_Pairwise_Diffs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">2</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="right">4</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">6</td>
+<td align="left">RCBD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="right">2</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">4</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="right">6</td>
+<td align="left">CRD</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<div id="interpretation-3" class="section level3">
+<h3>Interpretation</h3>
+<ul>
+<li>Identify <strong>diminishing returns</strong> when increasing
+replicates or centers.</li>
+<li>Propose an <strong>efficient</strong> design achieving <strong>power
+≥ 0.80</strong> with minimal sample size.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="part-5-precision-of-treatment-differences"
+class="section level2">
+<h2>Part 5 — Precision of Treatment Differences</h2>
+<p>Choose two contrasting scenarios (e.g., <em>Low</em> vs <em>High</em>
+block effect). For <strong>RCBD</strong>: - Report the <strong>pairwise
+estimates (A–B, A–C, B–C)</strong> and <strong>95% CIs</strong>. -
+Summarize how blocking impacts <strong>CI width</strong>.</p>
+<table>
+<caption>Pairwise treatment differences (RCBD).</caption>
+<thead>
+<tr class="header">
+<th align="left">Contrast</th>
+<th align="left">Estimate</th>
+<th align="left">CI_lower</th>
+<th align="left">CI_upper</th>
+<th align="left">Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A - B</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">A - C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">B - C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<div id="short-discussion" class="section level3">
+<h3>Short discussion</h3>
+<ul>
+<li>Under which conditions do CIs shrink the most with RCBD?</li>
+<li>Are there situations where CRD and RCBD yield similar precision?
+Why?</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="part-6-reflection-short-answers" class="section level2">
+<h2>Part 6 — Reflection (Short Answers)</h2>
+<ol style="list-style-type: decimal">
+<li>When do <strong>centers as blocks</strong> provide the largest
+advantage?<br />
+</li>
+<li>How do <code>sigma_within</code>, number of centers, and replicates
+jointly determine <strong>power</strong>?<br />
+</li>
+<li>What’s a <strong>practical combination</strong> of centers ×
+replicates to achieve power ≥ 0.80 in this context?<br />
+</li>
+<li>If the block effect were negligible, what would be the consequence
+of using RCBD instead of CRD?<br />
+</li>
+<li>How would you check the key assumption that <strong>treatment
+effects are consistent across centers</strong> (i.e., no
+treatment×center interaction)?</li>
+</ol>
+<hr />
+</div>
+<div id="optional-notes-for-instructors-remove-before-submission"
+class="section level2">
+<h2>Optional: Notes for Instructors (remove before submission)</h2>
+<ul>
+<li>Expected trends:
+<ul>
+<li><strong>Higher block effect</strong> → RCBD gains over CRD in power
+and MSE.<br />
+</li>
+<li><strong>Higher sigma_within</strong> → lower precision and power for
+both; RCBD helps mainly when block variance is non-negligible.<br />
+</li>
+<li><strong>More centers</strong> controls systematic heterogeneity;
+<strong>more replicates</strong> reduces within-center error.<br />
+</li>
+<li><strong>Diminishing returns</strong> after moderate
+replication.</li>
+</ul></li>
+<li>Suggested grading criteria: completeness of tables; correctness of
+interpretations; ability to justify an efficient design.</li>
+</ul>
+</div>

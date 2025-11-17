@@ -1,0 +1,40 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Randomized Complete Block Design (RCBD)
+
+A **Randomized Complete Block Design (RCBD)** is an experimental design commonly used in agriculture, biomedicine, and other applied research areas where it is important to control for variability in experimental conditions.  
+
+In an RCBD, experimental units are grouped into **blocks** based on a factor believed to influence the response, and each treatment appears once in every block.
+
+---
+
+### 🔑 Key Features
+
+- **Blocking to Control Variability**  
+  A block is a group of experimental units that are similar with respect to some characteristic that may affect the outcome (e.g., soil type in agricultural studies or patient demographic groups in clinical trials).  
+  By organizing similar units into blocks, the design reduces the impact of this source of variability on the results.
+
+- **Randomization within Blocks**  
+  Within each block, the treatments are assigned randomly to experimental units.  
+  This prevents systematic bias and helps ensure that differences in outcomes can be attributed to the treatments rather than to uncontrolled factors.
+
+- **Design Structure**  
+  In an RCBD, each treatment appears exactly once per block.  
+  This ensures a fair and balanced comparison of treatments across different levels of the blocking factor.
+
+- **Statistical Analysis**  
+  Data from an RCBD are typically analyzed using **Analysis of Variance (ANOVA)**.  
+  The model partitions the total variability into variability due to treatments and variability due to blocks.  
+  This allows researchers to detect treatment differences while accounting for block effects.

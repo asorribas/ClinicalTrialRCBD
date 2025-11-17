@@ -1,0 +1,68 @@
+---
+title: ''
+output:
+  html_fragment:
+    self_contained: false
+    toc: false
+    df_print: default
+    mathjax: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+<style>
+h5 {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+h2 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+h3 {
+  font-size: 16pt;
+  color: darkred;
+  font_weight: normal;
+}
+p {
+  font-size: 14pt;
+  color: black;
+  font_weight: normal;
+}
+</style>
+
+## What is the purpose of this app?
+
+This app has been designed for simulating a Randomized Complete Block Design (RCBD) and for exploring the different aspects that determines the results. This is a **SIMULATION** tool and <u>**it is not a tool for analyzing real data**</u>. The app simulates experiments using a set of parameters defined by the user.
+
+## What is a simulation?
+
+A simulation is a computational experiment used to mimic the process of conducting the experiment many times under known or assumed conditions.
+
+It allows researchers or students to understand how random variation, block effects, and treatment differences influence the analysis of variance (ANOVA) results and conclusions — without actually performing the physical experiment.
+
+A simulation helps you:
+
+- Visualize variability due to random errors and blocking.
+- Evaluate the power of detecting treatment differences under different levels of variability.
+- Explore robustness of the design when assumptions (like homogeneity of variance or normality) are violated.
+- Understand sampling distributions of test statistics (e.g., F-ratios).
+
+## Suggested workflow for using the app
+
+You can use this app in different ways, but a suggested workflow can help:
+
+- Define your problem. How many treatments? How many blocks? Do blocks have an important variability? Can you obtain replicates? Which is the treatmet effect (set a value for within sigma and chose a value for Cohen's f)
+- Introduce the parameter values in the app
+- Generate data
+- Explore the estucture of the data according to the experimental design. Try to understand the difference between RCBD and CRD.
+- Compare the analysis in both cases.
+- Compare the confidence intervals for the pairwise comparison of treatment's effects.
+- Compute statistical power. What does it mean?
+- Explore the effect of increasing the number of blocks and replicates on statistical power.
+- Explore precision on the pairwise estimation of effects.
