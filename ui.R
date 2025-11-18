@@ -350,7 +350,8 @@ shinyUI(
                                                                    box(
                                                                      width = 6,title = HTML("<span style='color:white; font-weight:bold;'>Descriptive Plot"),
                                                                      status = "success", solidHeader = TRUE,
-                                                                     sliderInput('yRange','Range for response axes',value=c(0,40),min=-100,max=300),
+                                                                     numericInput("MaxScaleyRangeCRD","Max value for scale y",value = 40),
+                                                                     uiOutput("ScaleyRangeCRD"),
                                                                      plotOutput('PlotMeansCRD')
                                                                    ))
                                            )
