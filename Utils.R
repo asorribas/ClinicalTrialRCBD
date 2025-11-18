@@ -1,5 +1,5 @@
 ######################################################################################################## End of checking inputs
-### Calculate treatment effects from Cohen's f
+### Calculate treatment effects from Cohen's f ########################################################
 
 calculate_group_means <- function(f=0.12, sigma_within=3, mu=0, k=3) {
   # Calculate the standard deviation of the group means
