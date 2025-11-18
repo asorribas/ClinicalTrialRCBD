@@ -337,17 +337,17 @@ shinyServer(function(input, output, session) {
     d <- d$data %>% as.data.frame()
     d$Treatment <- factor(d$Treatment)
     d$Block <- factor(d$Block)
-    
+    yScale <- input$yRange
     ggplot(d,aes(x = Treatment, y = response,color = Block,group = Block)) +
       stat_summary(fun.data = mean_se, 
                    geom = "pointrange") +
       geom_line(stat = "summary", fun = mean, size=.75, linetype=2)+
       labs(x='Factor',y='Respuesta',color='Blocks')+
-      ylim(input$yRange[1],input$yRange[2])+
+      ylim(yScale[1],yScale[2])+
       labs(x='Treatment',y='Response')
   })
   
-  ## Plot means CRD
+  ## Plot means CRD corrected
   
   output$PlotMeansCRD<- renderPlot({
     d <- dataBlocksSim()
@@ -358,7 +358,7 @@ shinyServer(function(input, output, session) {
     ggplot(d,aes(x = Treatment, y = response)) +
       stat_summary(fun.data = mean_se, 
                    geom = "pointrange") +
-      ylim(input$yRange[1],input$yRange[2])+
+      ylim(input$yRangeCRD[1],input$yRangeCRD[2])+
       labs(x='Treatment',y='Response')
   })
   
