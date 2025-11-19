@@ -60,8 +60,8 @@ shinyServer(function(input, output, session) {
   
   
   
-  observeEvent(input$rows, {
-    if (!is.numeric(input$rows) ||input$rows %% 1 !=0 || input$rows < 3 || input$rows>6) {
+  observeEvent(input$treat, {
+    if (!is.numeric(input$treat) ||input$treat %% 1 !=0 || input$treat < 3 || input$treat>6) {
       showModal(
         modalDialog(
           title = "Invalid Input",
@@ -75,15 +75,15 @@ shinyServer(function(input, output, session) {
       )
       
       # Optional: reset input to NA or to a safe value
-      updateNumericInput(session,"rows", value = 3)
+      updateNumericInput(session,"treat", value = 3)
       
       # Optional: stop further propagation
       return(NULL)
     }
   }, ignoreInit = FALSE)
   
-  observeEvent(input$cols, {
-    if (!is.numeric(input$cols) ||input$cols %% 1 !=0 || input$cols < 2) {
+  observeEvent(input$blocks, {
+    if (!is.numeric(input$blocks) ||input$blocks %% 1 !=0 || input$blocks < 2) {
       showModal(
         modalDialog(
           title = "Invalid Input",
@@ -97,7 +97,7 @@ shinyServer(function(input, output, session) {
       )
       
       # Optional: reset input to NA or to a safe value
-      updateNumericInput(session,"cols", value = 3)
+      updateNumericInput(session,"blocks", value = 3)
       
       # Optional: stop further propagation
       return(NULL)
@@ -132,11 +132,11 @@ shinyServer(function(input, output, session) {
   
   input_table_T <- reactive({
     
-    #rr <- vals #replicate(input$rows,runif(1,-5,10))
-    rr <- calculate_group_means(f=input$fCohen,sigma=input$sigma,k=input$rows) %>% round(2)
-    mat <- matrix(rr, ncol = input$rows, nrow = 1)
+    #rr <- vals #replicate(input$treat,runif(1,-5,10))
+    rr <- calculate_group_means(f=input$fCohen,sigma=input$sigma,k=input$treat) %>% round(2)
+    mat <- matrix(rr, ncol = input$treat, nrow = 1)
     res <- c()
-    for (j in 1:input$rows) {res <- c(res,paste("Treat(",j,")",sep=''))}
+    for (j in 1:input$treat) {res <- c(res,paste("Treat(",j,")",sep=''))}
     colnames(mat) <- res  
     
     res = as.data.frame(mat)
@@ -234,8 +234,8 @@ shinyServer(function(input, output, session) {
   # Data generation in response to the button go
   
   dataBlocksSim <- eventReactive(input$go,{
-    dataBlocks(trat=input$rows,
-               blocks=input$cols,
+    dataBlocks(trat=input$treat,
+               blocks=input$blocks,
                repli=input$replicates,
                error=input$sigma,
                mean=input$mu,
@@ -579,8 +579,8 @@ shinyServer(function(input, output, session) {
     x2 <- 30
     nrep <- seq(x1,x2,1)
     
-    b <- input$cols
-    t <- input$rows
+    b <- input$blocks
+    t <- input$treat
     r <- input$replicates
     
     MM=mean(input$mu+t(dT1()))
@@ -728,8 +728,8 @@ shinyServer(function(input, output, session) {
   
   output$ComputeActualPower <- renderUI({
     s <- input$sigma
-    t <- input$rows
-    b <- input$cols
+    t <- input$treat
+    b <- input$blocks
     r <- input$replicates
     alfa <- input$alfa
     tau <- t(dT1())
@@ -746,8 +746,8 @@ shinyServer(function(input, output, session) {
   
   # output$ComputeActualPowerNoBlockEffect <- renderUI({
   #   s <- input$sigma
-  #   t <- input$rows
-  #   b <- input$cols
+  #   t <- input$treat
+  #   b <- input$blocks
   #   r <- input$replicates
   #   N <- t*b*r
   #   tau <- t(dT1())
@@ -767,7 +767,7 @@ shinyServer(function(input, output, session) {
     
     goal <- input$GoalPower
     s <- input$sigma
-    t <- input$rows
+    t <- input$treat
     alfa <- input$alfa
     tau <- t(dT1())
     res <- TablePower(t=t,s=s,tau=tau,alfa=alfa)
@@ -838,26 +838,26 @@ shinyServer(function(input, output, session) {
   
   ## Función para crear el gráfico de potencia teórica y por simulación
   
-  simulationPower <- function(num_sim,mu_sim,sigma_sim,rows_sim,cols_sim,repli_sim,alfa=0.05){
+  simulationPower <- function(num_sim,mu_sim,sigma_sim,treat_sim,blocks_sim,repli_sim,alfa=0.05){
     
     cssj <- block_cssj()
     
-    pnc <- cols_sim*repli_sim*cssj/sigma_sim^2
+    pnc <- blocks_sim*repli_sim*cssj/sigma_sim^2
     
     
-    f <- replicate(num_sim, cocienteF(rows_sim,cols_sim,sigma_sim,mu_sim)) # cocientes F simulados
+    f <- replicate(num_sim, cocienteF(treat_sim,blocks_sim,sigma_sim,mu_sim)) # cocientes F simulados
     data <- data.frame(f) # cocientes F en forma de tabla
     
     lambda <- pnc # parametro de no centralidad
     
     # Distribución F de simulación y la F teorica
-    ua <- qf(p = 1-alfa, df1 = rows_sim-1, 
-             df2 = (cols_sim - 1)*(rows_sim - 1))
+    ua <- qf(p = 1-alfa, df1 = treat_sim-1, 
+             df2 = (blocks_sim - 1)*(treat_sim - 1))
     
     power <- sum(f>ua)/num_sim
     
-    powert <- 1-pf(ua,rows_sim-1,
-                   (cols_sim - 1)*(rows_sim - 1),lambda)%>%round(2)
+    powert <- 1-pf(ua,treat_sim-1,
+                   (blocks_sim - 1)*(treat_sim - 1),lambda)%>%round(2)
     
     
     p5 <- ggplot(data, aes(f))+
@@ -870,8 +870,8 @@ shinyServer(function(input, output, session) {
         fill = "gray",
         alpha = .7,
         args = list(
-          df1 = rows_sim-1,
-          df2 = (cols_sim - 1)*(rows_sim - 1),
+          df1 = treat_sim-1,
+          df2 = (blocks_sim - 1)*(treat_sim - 1),
           ncp = lambda)) +
       
       stat_function(
@@ -881,8 +881,8 @@ shinyServer(function(input, output, session) {
         fill = "red",
         alpha = .6,
         args = list(
-          df1 = rows_sim-1,
-          df2 = (cols_sim - 1)*(rows_sim - 1),
+          df1 = treat_sim-1,
+          df2 = (blocks_sim - 1)*(treat_sim - 1),
           ncp = lambda
         ), 
         xlim = c(ua, 30)
@@ -893,8 +893,8 @@ shinyServer(function(input, output, session) {
         geom = "line",
         linetype = 2,
         args = list(
-          df1 = rows_sim-1,
-          df2 = (cols_sim - 1)*(rows_sim - 1)
+          df1 = treat_sim-1,
+          df2 = (blocks_sim - 1)*(treat_sim - 1)
         )
       ) + 
       xlim(0,30)+
@@ -937,8 +937,8 @@ shinyServer(function(input, output, session) {
     conf <- input$Conf.CI.Tukey
      
     
-    t <- input$rows
-    b <- input$cols
+    t <- input$treat
+    b <- input$blocks
     r <- input$replicates
     
     
@@ -983,8 +983,8 @@ shinyServer(function(input, output, session) {
   
   output$DesiredPrecissionTukey <- renderUI({
     
-    t <- input$rows
-    b <- input$cols
+    t <- input$treat
+    b <- input$blocks
     r <- input$replicates
     sigma <- input$sigma
     conf <- input$Conf.CI.Tukey
@@ -1287,8 +1287,8 @@ plot_sim_power <- eventReactive(input$go,{#if (input$fix==TRUE){set.seed(input$v
                  mu_sim=input$mu,
                  sigma_sim=input$sigma,
                  repli=input$replicates,
-                 rows=input$rows,                  # treatments
-                 cols=input$cols,                  # blocks
+                 rows=input$treat,                  # treatments
+                 cols=input$blocks,                  # blocks
                  eF2=dataBlocksSim()$eBlock,
                  bin=input$binwSimPower,
                  alfa=input$alfa)
@@ -1311,11 +1311,11 @@ output$PValueCase <- renderPlot({
   
 
   data <- data.frame(F=seq(0,input$ScalePValue,.05))
-  df1 <- input$rows - 1
+  df1 <- input$treat - 1
   
   r <- input$replicates
-  k <- input$rows
-  b <- input$cols
+  k <- input$treat
+  b <- input$blocks
   
   
   if (r > 1) {df2=(k*b*r-1)-(k-1)-(b-1)}
@@ -1354,8 +1354,8 @@ output$PValueCase <- renderPlot({
 ############################ Theoretical precission
 
 output$PrecisionTheoretical <- renderUI({
-  t <- input$rows
-  b <- input$cols
+  t <- input$treat
+  b <- input$blocks
   r <- input$replicates
   s <- input$sigma
   conf <- input$Conf.CI.Tukey
@@ -1375,7 +1375,7 @@ output$PrecisionTheoretical <- renderUI({
 #   m <- mean(eT)
 #   SSB <- sum((eT-m)^2)
 #   sigma <- input$sigma
-#   f <- sqrt((SSB/(input$rows)))/(sigma)
+#   f <- sqrt((SSB/(input$treat)))/(sigma)
 #   
 #   
 #   
@@ -1393,7 +1393,7 @@ output$PlotPowerByBlocks <- renderPlotly({
   
   res <- data.frame()
   resCRD <- data.frame()
-  t <- input$rows
+  t <- input$treat
   b <- input$NumBlocks
   
   s <- input$sigma

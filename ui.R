@@ -134,7 +134,7 @@ shinyUI(
                                          ),
                                          fluidRow(
                                          column(6,numericInput('alfa',HTML('Significance level <br>(\\(\\alpha\\))'),value=0.05,min=0.001,max=0.2,step=0.01)),
-                                         column(6,numericInput("rows", "Number of Treatments:",
+                                         column(6,numericInput("treat", "Number of Treatments:",
                                                      min = 3, max = 6, value = 3,step=1))
                                          ),
                                          radioButtons("ChoiceInputEffects","How do you want to define the treatment effects?",
@@ -152,7 +152,7 @@ shinyUI(
                                          br(),
                                          fluidRow(
                                            column(6,
-                                                  numericInput('cols',withMathJax(HTML('Number of <br>Blocks')),value=3,min=2,step=1)
+                                                  numericInput('blocks',withMathJax(HTML('Number of <br>Blocks')),value=3,min=2,step=1)
                                                   ),
                                            column(6,selectInput(inputId = "opcion", label = HTML("Select <br>block's effect <br> Variability of bock vs. within"),
                                                       choices = c("No effect" = "Nulo",
@@ -570,7 +570,7 @@ shinyUI(
                                                             ))
                                        )),
                               #########################################################
-                              tabPanel(HTML("Precission on <br>effect's estimation"),
+                              tabPanel(HTML("Precision on <br>effect's estimation"),
                                        fluidPage(
                                          column(6,
                                                 box(width=12,title = HTML("<span style='color:white; font-weight:bold;'>Estimate treatment effects"),
@@ -585,14 +585,14 @@ shinyUI(
                                                 tableOutput('SampleSizeTukey')
                                          )),
                                          column(6,
-                                                box(width=12,title = HTML("<span style='color:white; font-weight:bold;'>Required sample size for precission"),
+                                                box(width=12,title = HTML("<span style='color:white; font-weight:bold;'>Required sample size for precision"),
                                                     status = "success", solidHeader = TRUE,
                                                 h4(HTML("Required sample size (number of blocks and replicates) determined
                                                 to attain a desired precision of the CI for the difference of
                                                         treatment effects.")), hr(),
                                                 h4(uiOutput('PrecisionTheoretical')),
                                                 hr(),
-                                                numericInput('DesiredPrecission','Desired CI precission (minimum effect to detect)',value=1,min=0.1,step=0.1),
+                                                numericInput('DesiredPrecission','Desired CI precision (minimum effect to detect)',value=1,min=0.1,step=0.1),
                                                 hr(),
                                                 radioButtons('OptionPrecission','Which is your option',
                                                              choices=c('Increase blocks'='IncBlocks',
