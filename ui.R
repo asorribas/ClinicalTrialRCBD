@@ -22,7 +22,7 @@ shinyUI(
                   #menuItem("Linear model", icon = icon("eye"), tabName = "LinearModel"),
                   menuItem("Simulate experiments", icon = icon("computer"), tabName = "Simulate"),
                   menuItem("Suggested work", icon = icon("book"), tabName = "ExploreCases"),
-                  menuItem("Contact", icon = icon("book-open-reader"), tabName = "Contact")
+                  menuItem("Contact, code, and publication", icon = icon("book-open-reader"), tabName = "Contact")
                   
                   )),
                 dashboardBody(
@@ -360,7 +360,9 @@ shinyUI(
                               ##############################################################################
                               tabPanel(HTML('Design matters!! <br>RCBD vs CRD'),
                                        h3("Explore RCBD and CRD results"),
+                                       
                                        tabsetPanel(id = "inner_tabs", type = "pills",
+                                                   
                                                    tabPanel(HTML("RCBD vs. CRD"),
                                                             fluidPage(
                                                               br(),
@@ -372,10 +374,10 @@ shinyUI(
                                           If the block effect is important, the estimation of effects
                                           without including that effect produces wider confidence intervals.")),
                                                                   h4(uiOutput('Cohenf'))),
-                                                              numericInput("MaxScaleTukey","Maximum value for the scale of CI",value=100),
-                                                              # sliderInput('ScaleTukey','Scale for CI',value=c(-20,20),min=-1000,max=1000,width="100%"),
-                                                              uiOutput("ScaleTukeyCI"),
+                                                              
+                                                              
                                                               fluidPage(
+                                                                
                                                                 column(6,
                                                                        box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>Analysis of variance with block effects"),
                                                                            status = "success", solidHeader = TRUE,
@@ -385,19 +387,33 @@ shinyUI(
                                                                        box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>Analysis of variance without block effects"),
                                                                            status = "success", solidHeader = TRUE,
                                                                            verbatimTextOutput('ANOVA_CRD')))
-                                                              ),
+                                                                ),
                                                               fluidPage(
-                                                                column(6,
-                                                                       box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>Treatment effects with block effects"),
-                                                                           status = "success", solidHeader = TRUE,
-                                                                           plotOutput('plot_emmeans_RCBD')))
-                                                                ,
-                                                                column(6,
-                                                                       box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>Treatment effects without block effects"),
-                                                                           status = "success", solidHeader = TRUE,
-                                                                           plotOutput('plot_emmeans_CRD')))
+                                                              column(3),
+                                                              column(6,
+                                                                     box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>95% CI for treatment responses"),
+                                                                         status = "success", solidHeader = TRUE,
+                                                                         plotOutput("plot_treat_CI_RCBD"))
+                                                                     )
                                                               )
                                                               
+                                                            )),
+                                                   tabPanel("Pairwise comparisons",
+                                                            
+                                                            fluidPage(
+                                                              hr(),
+                                                              numericInput("MaxScaleTukey","Maximum value for the scale of CI",value=100),
+                                                              # sliderInput('ScaleTukey','Scale for CI',value=c(-20,20),min=-1000,max=1000,width="100%"),
+                                                              uiOutput("ScaleTukeyCI"),
+                                                              column(6,
+                                                                     box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>Pairwise comparisons with block effects"),
+                                                                         status = "success", solidHeader = TRUE,
+                                                                         plotOutput('plot_emmeans_RCBD')))
+                                                              ,
+                                                              column(6,
+                                                                     box(width = 12,title = HTML("<span style='color:white; font-weight:bold;'>Pairwise comparisons without block effects"),
+                                                                         status = "success", solidHeader = TRUE,
+                                                                         plotOutput('plot_emmeans_CRD')))
                                                             )),
                                                    ###################################################################################################################
                                                    tabPanel(HTML("Explanation of <br> ANOVA table"),
@@ -643,7 +659,18 @@ shinyUI(
 
 
                     ),
-                    tabItem("Contact")
+                    tabItem("Contact",
+                            fluidPage(
+                              br(),br(),br(),br(),br(),br(),
+                              h3("Contact our group for suggestions regarding this app"),
+                              br(),br(),
+                              h4(HTML('<ul><li>You can contact us at <a href="https://www.biomodels.udl.cat/en/">our web page</a></li>
+                              <li>The code for this app is available at our <a href="https://github.com/asorribas/RCBD">GitHub</a> repository</li>
+                              <li>We are preparing a paper that discusses the motivation and utility of the RCBD app</li>
+                              </ul>'))
+                              
+                            )
+                    )
 
                     ############################ CLOSING #########################################################
 
